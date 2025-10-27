@@ -1,0 +1,32 @@
+{
+  "name": "janken-app",
+  "version": "1.0.0",
+  "description": "コンソールベースのじゃんけんゲーム",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "game": "node app.js",
+    "play": "node app.js",
+    "janken": "node app.js",
+    "dev": "node --watch app.js",
+    "debug": "node debug.js",
+    "test": "node test.js",
+    "clean": "rmdir /s /q node_modules && npm install"
+  },
+  "bin": {
+    "janken": "./app.js"
+  },
+  "keywords": [
+    "janken",
+    "game",
+    "console",
+    "cli"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "inquirer": "^9.2.12"
+  }
+}

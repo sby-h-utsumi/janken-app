@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>じゃんけんアプリ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>じゃんけんゲーム</h1>
+        
+        <div class="game-area">
+            <div class="player-section">
+                <h2>あなた</h2>
+                <div class="choice-display" id="playerChoice">❓</div>
+                <div class="buttons">
+                    <button class="choice-btn" onclick="playGame('rock')">
+                        <span class="emoji">✊</span>
+                        <span>グー</span>
+                    </button>
+                    <button class="choice-btn" onclick="playGame('paper')">
+                        <span class="emoji">✋</span>
+                        <span>パー</span>
+                    </button>
+                    <button class="choice-btn" onclick="playGame('scissors')">
+                        <span class="emoji">✌️</span>
+                        <span>チョキ</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="vs">VS</div>
+            
+            <div class="computer-section">
+                <h2>コンピューター</h2>
+                <div class="choice-display" id="computerChoice">❓</div>
+            </div>
+        </div>
+        
+        <div class="result-section">
+            <div class="result" id="result">選択してください</div>
+            <div class="score">
+                <div class="score-item">
+                    <span>勝利: </span>
+                    <span id="wins">0</span>
+                </div>
+                <div class="score-item">
+                    <span>敗北: </span>
+                    <span id="losses">0</span>
+                </div>
+                <div class="score-item">
+                    <span>引き分け: </span>
+                    <span id="draws">0</span>
+                </div>
+            </div>
+            <button class="reset-btn" onclick="resetGame()">スコアリセット</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
