@@ -12,7 +12,10 @@
     "dev": "node --watch app.js",
     "debug": "node debug.js",
     "test": "node test.js",
-    "clean": "rmdir /s /q node_modules && npm install"
+    "clean": "rmdir /s /q node_modules && npm install",
+    "browser": "start index.html",
+    "web": "start index.html",
+    "open": "start index.html"
   },
   "bin": {
     "janken": "./app.js"

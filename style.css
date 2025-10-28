@@ -1,0 +1,466 @@
+/* じゃんけんアプリ - モダンなブラウザアプリ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    overflow-x: hidden;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    padding: 40px;
+    max-width: 900px;
+    width: 90%;
+    text-align: center;
+    animation: slideIn 0.8s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    color: #4a5568;
+    margin-bottom: 30px;
+    font-size: 3em;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.game-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 40px 0;
+    gap: 30px;
+}
+
+.player-section, .computer-section {
+    flex: 1;
+}
+
+.player-section h2, .computer-section h2 {
+    color: #2d3748;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.choice-display {
+    font-size: 8em;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #f7fafc, #edf2f7);
+    border-radius: 20px;
+    margin-bottom: 25px;
+    border: 4px solid #e2e8f0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.choice-display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transition: left 0.5s ease;
+}
+
+.choice-display:hover::before {
+    left: 100%;
+}
+
+.choice-display.winner {
+    border-color: #48bb78;
+    background: linear-gradient(145deg, #f0fff4, #c6f6d5);
+    box-shadow: 0 0 30px rgba(72, 187, 120, 0.4);
+    transform: scale(1.05);
+}
+
+.choice-display.loser {
+    border-color: #f56565;
+    background: linear-gradient(145deg, #fffafa, #fed7d7);
+    box-shadow: 0 0 30px rgba(245, 101, 101, 0.4);
+    transform: scale(0.95);
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.choice-btn {
+    background: linear-gradient(145deg, #4299e1, #3182ce);
+    border: none;
+    border-radius: 20px;
+    padding: 20px 25px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 100px;
+    box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.choice-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, transparent, rgba(255, 255, 255, 0.2));
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+}
+
+.choice-btn:hover::before {
+    transform: translateY(0);
+}
+
+.choice-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(66, 153, 225, 0.5);
+    background: linear-gradient(145deg, #3182ce, #2c5282);
+}
+
+.choice-btn:active {
+    transform: translateY(-2px) scale(1.02);
+}
+
+.choice-btn .emoji {
+    font-size: 2.5em;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.choice-btn span:last-child {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.vs {
+    font-size: 3em;
+    font-weight: bold;
+    color: #4a5568;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.result-section {
+    margin-top: 40px;
+}
+
+.result {
+    font-size: 2.2em;
+    font-weight: bold;
+    margin-bottom: 25px;
+    padding: 25px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #f7fafc, #edf2f7);
+    border: 3px solid #e2e8f0;
+    transition: all 0.4s ease;
+    animation: resultFadeIn 0.6s ease-out;
+}
+
+@keyframes resultFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.result.win {
+    background: linear-gradient(145deg, #f0fff4, #c6f6d5);
+    border-color: #48bb78;
+    color: #22543d;
+    box-shadow: 0 10px 30px rgba(72, 187, 120, 0.3);
+}
+
+.result.lose {
+    background: linear-gradient(145deg, #fffafa, #fed7d7);
+    border-color: #f56565;
+    color: #742a2a;
+    box-shadow: 0 10px 30px rgba(245, 101, 101, 0.3);
+}
+
+.result.draw {
+    background: linear-gradient(145deg, #fffbf0, #fdeaa7);
+    border-color: #ed8936;
+    color: #7b341e;
+    box-shadow: 0 10px 30px rgba(237, 137, 54, 0.3);
+}
+
+.score {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.score-item {
+    background: linear-gradient(145deg, #edf2f7, #e2e8f0);
+    padding: 15px 25px;
+    border-radius: 15px;
+    font-weight: bold;
+    border: 2px solid #cbd5e0;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.score-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.score-item span:first-child {
+    color: #4a5568;
+    display: block;
+    font-size: 0.9em;
+}
+
+.score-item span:last-child {
+    color: #2d3748;
+    font-size: 1.5em;
+    display: block;
+    margin-top: 5px;
+}
+
+.reset-btn {
+    background: linear-gradient(145deg, #ed8936, #dd6b20);
+    border: none;
+    border-radius: 15px;
+    padding: 15px 30px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 6px 20px rgba(237, 137, 54, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.reset-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, transparent, rgba(255, 255, 255, 0.2));
+    transform: scale(0);
+    transition: transform 0.3s ease;
+    border-radius: 50%;
+}
+
+.reset-btn:hover::before {
+    transform: scale(2);
+}
+
+.reset-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(237, 137, 54, 0.4);
+    background: linear-gradient(145deg, #dd6b20, #c05621);
+}
+
+/* キーボードヒント */
+.keyboard-hints {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(113, 128, 150, 0.1);
+    border-radius: 15px;
+    color: #4a5568;
+    font-size: 0.9em;
+}
+
+.keyboard-hints h3 {
+    margin-bottom: 10px;
+    color: #2d3748;
+}
+
+.keyboard-hints .hint {
+    display: inline-block;
+    margin: 5px 10px;
+    padding: 5px 10px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+/* パーティクル効果 */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    font-size: 2em;
+    animation: float 6s ease-in-out infinite;
+    opacity: 0.7;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10%, 90% {
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateY(-10vh) rotate(180deg);
+    }
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+        width: 95%;
+    }
+    
+    .game-area {
+        flex-direction: column;
+        gap: 40px;
+    }
+    
+    .vs {
+        transform: rotate(90deg);
+        margin: 20px 0;
+    }
+    
+    .choice-display {
+        font-size: 6em;
+        height: 150px;
+    }
+    
+    .score {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .score-item {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    h1 {
+        font-size: 2.5em;
+    }
+    
+    .result {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .choice-btn {
+        width: 100%;
+        max-width: 200px;
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .choice-btn .emoji {
+        font-size: 2em;
+        margin-right: 10px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: rgba(45, 55, 72, 0.95);
+        color: #e2e8f0;
+    }
+    
+    h1 {
+        color: #e2e8f0;
+    }
+    
+    .player-section h2, .computer-section h2 {
+        color: #e2e8f0;
+    }
+    
+    .choice-display {
+        background: linear-gradient(145deg, #2d3748, #4a5568);
+        border-color: #4a5568;
+    }
+    
+    .result {
+        background: linear-gradient(145deg, #2d3748, #4a5568);
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .score-item {
+        background: linear-gradient(145deg, #2d3748, #4a5568);
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+}

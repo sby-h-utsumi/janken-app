@@ -3,58 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>じゃんけんアプリ</title>
+    <title>🎮 じゃんけんアプリ - モダンブラウザ版</title>
+    <meta name="description" content="美しいデザインのじゃんけんゲーム。コンピューターと対戦して勝率を競おう！">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
 </head>
 <body>
+    <!-- パーティクル背景 -->
+    <div class="particles" id="particles"></div>
+    
     <div class="container">
-        <h1>じゃんけんゲーム</h1>
+        <h1>🎮 じゃんけんゲーム</h1>
         
         <div class="game-area">
             <div class="player-section">
-                <h2>あなた</h2>
+                <h2>👤 あなた</h2>
                 <div class="choice-display" id="playerChoice">❓</div>
                 <div class="buttons">
-                    <button class="choice-btn" onclick="playGame('rock')">
+                    <button class="choice-btn" onclick="playGame('rock')" data-key="r">
                         <span class="emoji">✊</span>
                         <span>グー</span>
                     </button>
-                    <button class="choice-btn" onclick="playGame('paper')">
+                    <button class="choice-btn" onclick="playGame('paper')" data-key="p">
                         <span class="emoji">✋</span>
                         <span>パー</span>
                     </button>
-                    <button class="choice-btn" onclick="playGame('scissors')">
+                    <button class="choice-btn" onclick="playGame('scissors')" data-key="s">
                         <span class="emoji">✌️</span>
                         <span>チョキ</span>
                     </button>
                 </div>
             </div>
             
-            <div class="vs">VS</div>
+            <div class="vs">⚔️</div>
             
             <div class="computer-section">
-                <h2>コンピューター</h2>
+                <h2>🤖 コンピューター</h2>
                 <div class="choice-display" id="computerChoice">❓</div>
+                <div class="thinking" id="thinking" style="display: none;">
+                    <p>🤔 考え中...</p>
+                </div>
             </div>
         </div>
         
         <div class="result-section">
-            <div class="result" id="result">選択してください</div>
+            <div class="result" id="result">手を選んでゲームを開始しましょう！</div>
             <div class="score">
                 <div class="score-item">
-                    <span>勝利: </span>
+                    <span>🏆 勝利</span>
                     <span id="wins">0</span>
                 </div>
                 <div class="score-item">
-                    <span>敗北: </span>
+                    <span>💀 敗北</span>
                     <span id="losses">0</span>
                 </div>
                 <div class="score-item">
-                    <span>引き分け: </span>
+                    <span>🤝 引き分け</span>
                     <span id="draws">0</span>
                 </div>
+                <div class="score-item">
+                    <span>📊 勝率</span>
+                    <span id="winRate">-%</span>
+                </div>
             </div>
-            <button class="reset-btn" onclick="resetGame()">スコアリセット</button>
+            <button class="reset-btn" onclick="resetGame()">🔄 スコアリセット</button>
+        </div>
+        
+        <div class="keyboard-hints">
+            <h3>⌨️ キーボードショートカット</h3>
+            <div class="hint">R - グー</div>
+            <div class="hint">P - パー</div>
+            <div class="hint">S - チョキ</div>
+            <div class="hint">Space - リセット</div>
         </div>
     </div>
     
